@@ -1,0 +1,85 @@
+
+Project 1: netcat_part
+-----------------------
+
+Name:  Abdul Mudabir Siraj Patel
+uname: abdpatel
+
+Name:  NA
+uname: NA
+
+------------------------
+
+* How to compile
+    ** run Makefile at command line
+	$ make
+    ** to clean up all object files, temporary files and executable file (netcat_part)
+	$ make clean
+    ** to clean up all object files, temporary files, executable file (netcat_part), output files (e.g. results.txt)
+	$ make kleen
+
+* How to execute netcat_part
+
+    ** for server
+	*** to initiate server (server listens for incoming client connections)
+	    $ ./netcat_part -l localhost results.txt
+	*** to initiate server and listen at specific port
+	    $ ./netcat_part -l localhost results.txt -p 8000
+	*** to store incoming data from client in a specified file
+	    $ ./netcat_part -l localhost out.txt
+
+    ** for client
+	*** to initiate client connection with server and send a text message to it
+	    $ ./netcat_part -m "Hello World" localhost
+	*** to send to server only a specified number of bytes
+	    $ ./netcat_part -m "Hello World" localhost -n 2
+	*** to send a file with offset and specified number of bytes
+	    $ ./netcat_part -o 3 -n 3 localhost alphabet.txt
+
+* Worked on tank.soic.indiana.edu (localhost => tank.soic.indiana.edu)
+
+* checked mainly the following run cases for sanity
+    ** with server:
+	$ ./netcat_part -l localhost results.txt
+	$ ./netcat_part -l localhost
+	$ ./netcat_part -l tank.soic.indiana.edu
+	$ ./netcat_part -l tank.soic.indiana.edu out.txt
+	$ ./netcat_part -l localhost results.txt -p -354
+	$ ./netcat_part -l localhost results.txt -p 354
+	$ ./netcat_part -l localhost results.txt -p 8000
+
+    ** with client:
+	$ ./netcat_part -m "Hello World..." localhost
+	$ ./netcat_part -m "Hello World..." localhost -n 2
+	$ ./netcat_part -m "Hello World..." localhost -n 50
+	$ ./netcat_part -o 3 -n 3 localhost alphabet.txt
+	$ ./netcat_part -o 50 -n 300 localhost segments.eng
+	$ ./netcat_part -o 50 -n 0 localhost segments.eng
+
+* Output interpretation
+    ** mainly, whatever is received by the server is stored in a file at the server (user-specified file)
+    ** Examples
+	
+     1) At client host:
+	$ ./netcat_part -m "Hello World" localhost
+
+	At server host:
+	Server says: 11 bytes written to file 'results.txt'
+	$ cat results.txt
+	Hello World
+
+     2) At client host:
+	$ ./netcat_part -m "Hello World" -n 2
+
+	At server host:
+	Server says: 2 bytes written to file 'results.txt'
+	$ cat results.txt
+	He
+	
+     3) At client host:
+	$ ./netcat_part -o 3 -n 5 localhost alphabet.txt
+
+	At server host:
+	Server says: 5 bytes written to file 'results.txt'
+	$ cat results.txt
+	Hello
